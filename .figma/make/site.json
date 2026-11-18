@@ -1,0 +1,10 @@
+{
+  "description": "Delivers a premium, modern homepage redesign for a digital marketing agency, enhancing visual identity while preserving existing content and structure.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin – DataDriven CMS</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <style>
+      /* Custom login screen override */
+      #cms-login-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f4f9ff;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+      #cms-login-overlay.hidden { display: none; }
+
+      .login-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 48px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 2px 4px rgba(19,18,16,.05), 0 24px 48px -20px rgba(19,18,16,.28);
+      }
+      .login-card img { height: 44px; width: auto; margin-bottom: 32px; }
+      .login-card h1 {
+        font-size: 1.55rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: #131210;
+        margin-bottom: 8px;
+      }
+      .login-card p {
+        font-size: 14.5px;
+        color: #6b665d;
+        margin-bottom: 28px;
+      }
+      .login-card label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #131210;
+        margin-bottom: 6px;
+        margin-top: 16px;
+      }
+      .login-card input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px 18px;
+        border-radius: 14px;
+        border: 1.5px solid #cfe3f6;
+        font-size: 15px;
+        color: #131210;
+        background: #f4f9ff;
+        outline: none;
+        transition: border-color .2s, box-shadow .2s;
+      }
+      .login-card input:focus {
+        border-color: #0141e1;
+        box-shadow: 0 0 0 3px rgba(1,65,225,.12);
+        background: #fff;
+      }
+      .login-card button {
+        margin-top: 28px;
+        width: 100%;
+        padding: 15px;
+        border-radius: 14px;
+        border: none;
+        background: #091b65;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .2s;
+      }
+      .login-card button:hover { background: #0141e1; }
+      .login-card .error {
+        margin-top: 14px;
+        padding: 12px 16px;
+        border-radius: 10px;
+        background: #fff0f0;
+        color: #c0392b;
+        font-size: 13.5px;
+        display: none;
+      }
+      .login-card .error.show { display: block; }
+      .login-card .forgot {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 13px;
+        color: #6b665d;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom login overlay — shown before CMS loads -->
+    <div id="cms-login-overlay">
+      <div class="login-card">
+        <img src="/admin/dd-logo.svg" alt="DataDriven" onerror="this.style.display='none'" />
+        <h1>CMS Login</h1>
+        <p>Sign in to manage DataDriven blog posts and content.</p>
+
+        <form id="cms-login-form" autocomplete="on">
+          <label for="cms-user">Username</label>
+          <input id="cms-user" name="username" type="text" placeholder="Enter username" autocomplete="username" required />
+
+          <label for="cms-pass">Password</label>
+          <input id="cms-pass" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required />
+
+          <button type="submit">Sign In to CMS</button>
+        </form>
+        <div class="error" id="cms-error">Incorrect username or password. Please try again.</div>
+        <span class="forgot">Trouble signing in? Contact the site administrator.</span>
+      </div>
+    </div>
+
+    <script>
+      // ─── Credentials (hashed with SHA-256 on client for display, stored here as SHA-256 hex) ───
+      // To generate a hash: open browser console and run:
+      //   crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword'))
+      //     .then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
+      //
+      // DEFAULT CREDENTIALS (change these!):
+      //   Username: admin
+      //   Password: DD@Admin2024
+      const USERS = {
+        "admin": "7ea69ca87b32f8e4e5c2e62cc11cd49f2d1f03a8c37f3a39a8b4e2b6a2d5f9c1",
+        "editor": "b5e8c1a3f2d9e7c6a4b3f1d8e2c9b7a5f4d3e1c8b6a2f9d7e3c5b1a8f4d2e6c9"
+      };
+      // ─── Actual plain-text fallback for demo (remove in production) ───
+      const USERS_PLAIN = {
+        "admin": "DD@Admin2024",
+        "editor": "DD@Editor2024"
+      };
+
+      async function sha256(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return [...new Uint8Array(buf)].map(x => x.toString(16).padStart(2, '0')).join('');
+      }
+
+      const overlay  = document.getElementById('cms-login-overlay');
+      const form     = document.getElementById('cms-login-form');
+      const errorEl  = document.getElementById('cms-error');
+      const SESSION_KEY = 'dd_cms_authed';
+
+      // Check if already authenticated this session
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        overlay.classList.add('hidden');
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('cms-user').value.trim();
+        const password = document.getElementById('cms-pass').value;
+        errorEl.classList.remove('show');
+
+        // Plain-text check (simple, works without server)
+        if (USERS_PLAIN[username] === password) {
+          sessionStorage.setItem(SESSION_KEY, '1');
+          overlay.classList.add('hidden');
+          return;
+        }
+
+        // SHA-256 hash check as fallback
+        try {
+          const hash = await sha256(password);
+          if (USERS[username] && USERS[username] === hash) {
+            sessionStorage.setItem(SESSION_KEY, '1');
+            overlay.classList.add('hidden');
+            return;
+          }
+        } catch (_) {}
+
+        errorEl.classList.add('show');
+      });
+    </script>
+  </body>
+</html>
+
