@@ -8,6 +8,7 @@ import { ExploreChips, Flow, LongForm, IntroProse, ItemRows, Sections, clean, fa
 import { Clients } from './sections-a'
 import sivasakthi from '../assets/sivasakthi.jpg'
 import { getSeo } from '../content/seo'
+import { HERO_IMAGES } from '../content/heroImages'
 
 function useRoute(): Route {
   const { pathname } = useLocation()
@@ -40,7 +41,7 @@ export function ServicePage() {
   const chips = r.kind === 'overview' ? [] : siblings.map((x) => ({ label: x.label, path: x.path }))
   return (
     <>
-      <PageHero path={r.path} eyebrow={p.eyebrow} title={p.title} lead={p.lead} image={p.image ? imgUrl(p.image) : fallbackImg(n)} imageAlt={p.imageAlt || p.title} shape={shapeFor(n)}>
+      <PageHero path={r.path} eyebrow={p.eyebrow} title={p.title} lead={p.lead} image={HERO_IMAGES[r.path] || fallbackImg(n)} imageAlt={p.imageAlt || p.title} shape={shapeFor(n)}>
         {heroActions}
       </PageHero>
       {r.path === '/linkedin-marketing' ? (
@@ -67,7 +68,7 @@ export function OtherServicesPage() {
   })
   return (
     <>
-      <PageHero path={r.path} eyebrow="Our Services" title="Other Services" image={FALLBACKS[0]} shape="arch">
+      <PageHero path={r.path} eyebrow="Our Services" title="Other Services" image={HERO_IMAGES[r.path] || FALLBACKS[0]} shape="arch">
         {heroActions}
       </PageHero>
       <Sect tone="bg-white"><ItemRows gs={gs} offset={2} /></Sect>
