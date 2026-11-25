@@ -2,7 +2,6 @@ import { useEffect, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { trail } from '../content/routes'
 import { Arrow, Container, Eyebrow, Reveal } from './ui'
-import HeroMotion from './HeroMotion'
 import why from '../assets/why.webp'
 import about from '../assets/about.jpg'
 import campaign from '../assets/campaign.jpg'
@@ -128,7 +127,7 @@ export function PageHero({
               </p>
             )}
             {children && <div className="hero-in mt-9 flex flex-wrap items-center gap-4" style={{ ['--d' as string]: '320ms' }}>{children}</div>}
-            {image && !lead && !dark && <div className="hero-in" style={{ ['--d' as string]: '420ms' }}><HeroMotion path={path} /></div>}
+
           </div>
           {image && (
             <div className="img-reveal lg:col-span-5" style={{ ['--d' as string]: '160ms' }}>

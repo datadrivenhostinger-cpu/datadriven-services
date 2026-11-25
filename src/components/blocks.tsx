@@ -10,6 +10,12 @@ export type Parsed = { eyebrow?: string; title: string; lead?: string; image?: s
 const isNum = (b?: Block) => !!b && b.t === 'h2' && /^\d{1,2}$/.test((b.x || '').trim())
 const isHead = (b?: Block) => !!b && ['h1', 'h2', 'h3', 'h4', 'h5'].includes(b.t)
 
+function isVsSec(sec: Sec): boolean {
+  if (sec.title?.trim().toUpperCase() === 'VS') return true
+  if (!sec.title && sec.blocks.length <= 1 && sec.blocks[0]?.x?.trim().toUpperCase() === 'VS') return true
+  return false
+}
+
 export function clean(blocks: Block[]) {
   const out: Block[] = []
   for (const b of blocks) {
@@ -334,8 +340,81 @@ export function LongForm({ intro, sections }: { intro: Block[]; sections: Sec[] 
   )
 }
 
+function ComparisonCard({ secA, secB, idx }: { secA: Sec; secB: Sec; idx: number }) {
+  const tone = idx % 2 ? 'bg-paper' : 'bg-white'
+  function CompareList({ blocks, good }: { blocks: Block[]; good: boolean }) {
+    return (
+      <div className="space-y-3">
+        {blocks.map((b, i) => {
+          if (b.t === 'ul') return (
+            <ul key={i} className="space-y-3">
+              {(b.items || []).map((item) => (
+                <li key={item} className="flex items-start gap-3 text-[15px] leading-[1.6]">
+                  <span className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-bold ${good ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-500'}`}>
+                    {good ? '✓' : '✗'}
+                  </span>
+                  <span>{item.replace(/^[❌✅✓✗×x]\s*/, '')}</span>
+                </li>
+              ))}
+            </ul>
+          )
+          if (b.t === 'p') return <Rich key={i} text={b.x || ''} />
+          return null
+        })}
+      </div>
+    )
+  }
+  return (
+    <Sect tone={tone}>
+      <Reveal>
+        <div className="relative">
+          <div className="grid md:grid-cols-2">
+            <div className="rounded-t-[2rem] md:rounded-tl-[2rem] md:rounded-tr-none md:rounded-bl-[2rem] bg-red-50 p-8 ring-2 ring-red-100 lg:p-10">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+                  <span className="text-lg font-bold text-red-500">✗</span>
+                </div>
+                <h3 className="font-display text-[1.25rem] font-bold tracking-tight text-red-800">{secA.title}</h3>
+              </div>
+              <CompareList blocks={secA.blocks} good={false} />
+            </div>
+            <div className="flex items-center gap-4 py-5 md:hidden">
+              <div className="h-px flex-1 bg-ink/10" />
+              <span className="font-display text-2xl font-black text-navy">VS</span>
+              <div className="h-px flex-1 bg-ink/10" />
+            </div>
+            <div className="rounded-b-[2rem] md:rounded-tr-[2rem] md:rounded-br-[2rem] md:rounded-bl-none bg-emerald-50 p-8 ring-2 ring-emerald-100 lg:p-10">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
+                  <span className="text-lg font-bold text-emerald-600">✓</span>
+                </div>
+                <h3 className="font-display text-[1.25rem] font-bold tracking-tight text-emerald-800">{secB.title}</h3>
+              </div>
+              <CompareList blocks={secB.blocks} good={true} />
+            </div>
+          </div>
+          <div className="absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 md:flex h-16 w-16 items-center justify-center rounded-full bg-navy font-display text-[1rem] font-black text-white shadow-lift ring-4 ring-white">
+            VS
+          </div>
+        </div>
+      </Reveal>
+    </Sect>
+  )
+}
+
 export function Sections({ sections, start = 0 }: { sections: Sec[]; start?: number }) {
-  return <>{sections.map((s, i) => <SectionView key={i} sec={s} idx={i + start} />)}</>
+  const result: JSX.Element[] = []
+  let i = 0
+  while (i < sections.length) {
+    if (i + 2 < sections.length && isVsSec(sections[i + 1])) {
+      result.push(<ComparisonCard key={i} secA={sections[i]} secB={sections[i + 2]} idx={i + start} />)
+      i += 3
+    } else {
+      result.push(<SectionView key={i} sec={sections[i]} idx={i + start} />)
+      i++
+    }
+  }
+  return <>{result}</>
 }
 
 export function IntroProse({ blocks }: { blocks: Block[] }) {
