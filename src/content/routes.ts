@@ -1,12 +1,11 @@
 export type Kind =
-  | 'overview' | 'service' | 'data' | 'about' | 'team' | 'contact' | 'book' | 'cases' | 'case' | 'blog' | 'post'
+  | 'overview' | 'service' | 'about' | 'team' | 'contact' | 'book' | 'cases' | 'case' | 'blog' | 'post'
   | 'portfolio' | 'sites' | 'simple' | 'other' | 'faq'
 
 export type Route = { path: string; key?: string; label: string; parent?: string; kind: Kind }
 
 const DM = '/digital-marketing'
 const OS = '/other-services'
-const DS = '/data-services'
 
 export const ROUTES: Route[] = [
   { path: '/about-us', key: 'about-us', label: 'About Us', kind: 'about' },
@@ -15,7 +14,6 @@ export const ROUTES: Route[] = [
   { path: '/book-a-meeting', label: 'Book a Meeting', parent: '/contact', kind: 'book' },
 
   { path: DM, key: 'digital-marketing', label: 'Digital Marketing', kind: 'overview' },
-  { path: DS, key: 'data-services', label: 'Data Services', kind: 'overview' },
   { path: OS, label: 'Other Services', kind: 'other' },
 
   { path: '/email-marketing', key: 'email-marketing', label: 'Email Marketing', parent: DM, kind: 'service' },
@@ -31,9 +29,6 @@ export const ROUTES: Route[] = [
   { path: '/video-marketing', key: 'video-marketing', label: 'Video Marketing', parent: DM, kind: 'service' },
   { path: '/graphic-design-services', key: 'graphic-design-services', label: 'Graphic Design', parent: DM, kind: 'service' },
   { path: '/web-development-services', key: 'web-development-services', label: 'WordPress Web Development', parent: DM, kind: 'service' },
-
-  { path: '/b2c-data', key: 'b2c-data', label: 'B2C Data', parent: DS, kind: 'data' },
-  { path: '/digital-marketing/b2b-data', key: 'digital-marketing/b2b-data', label: 'B2B Data', parent: DS, kind: 'data' },
 
   { path: '/b2b-email-marketing-services', key: 'b2b-email-marketing-services', label: 'B2B Email Marketing Services', parent: OS, kind: 'service' },
   { path: '/b2c-email-marketing-services', key: 'b2c-email-marketing-services', label: 'B2C Email Marketing Services', parent: OS, kind: 'service' },
@@ -104,6 +99,5 @@ export function linkFor(title: string): string | undefined {
 
 export const SERVICE_GROUPS = [
   { label: 'Digital Marketing', path: DM, items: ROUTES.filter((r) => r.kind === 'service' && (r.parent === DM || r.parent === '/email-marketing')) },
-  { label: 'Data Services', path: DS, items: ROUTES.filter((r) => r.kind === 'data') },
   { label: 'Other Services', path: OS, items: ROUTES.filter((r) => r.kind === 'service' && r.parent === OS) },
 ]

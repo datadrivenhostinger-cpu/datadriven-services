@@ -61,7 +61,7 @@ export function ServicePage() {
 export function OtherServicesPage() {
   const r = useRoute()
   useSeo('Other Services', 'Email deliverability, B2B and B2C email marketing, virtual assistant and relationship building services from DataDriven.')
-  const gs: Group[] = SERVICE_GROUPS[2].items.map((it) => {
+  const gs: Group[] = SERVICE_GROUPS[1].items.map((it) => {
     const pg = pageFor(it.path)!
     const pr = parse(pg, it.label)
     return { image: pr.image ? { t: 'img', src: pr.image, alt: pr.imageAlt } : undefined, title: it.label, href: it.path, body: pr.lead ? [{ t: 'p', x: pr.lead }] : [] }
@@ -72,7 +72,7 @@ export function OtherServicesPage() {
         {heroActions}
       </PageHero>
       <Sect tone="bg-white"><ItemRows gs={gs} offset={2} /></Sect>
-      <ExploreChips items={SERVICE_GROUPS.slice(0, 2).map((g) => ({ label: g.label, path: g.path }))} title="Also Explore" />
+      <ExploreChips items={[{ label: SERVICE_GROUPS[0].label, path: SERVICE_GROUPS[0].path }]} title="Also Explore" />
     </>
   )
 }

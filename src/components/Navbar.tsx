@@ -38,14 +38,6 @@ const NAV: Item[] = [
     ],
   },
   {
-    label: 'Data Services',
-    href: S + 'data-services/',
-    groups: [
-      { label: 'B2C Data', href: S + 'b2c-data/' },
-      { label: 'B2B Data', href: S + 'digital-marketing/b2b-data/' },
-    ],
-  },
-  {
     label: 'Other Services',
     href: '/other-services',
     groups: [
