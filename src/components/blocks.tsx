@@ -3,6 +3,7 @@ import { img as imgUrl, resolve, type Block, type Page } from '../content/site'
 import { linkFor } from '../content/routes'
 import { Button, Container, Eyebrow, Reveal } from './ui'
 import { CheckList, FALLBACKS, Photo, Rich, Sect, SectionTitle, TextLink, type Shape } from './page'
+import { HERO_IMAGES } from '../content/heroImages'
 
 export type Sec = { eyebrow?: string; title?: string; blocks: Block[] }
 export type Parsed = { eyebrow?: string; title: string; lead?: string; image?: string; imageAlt?: string; intro: Block[]; sections: Sec[] }
@@ -143,7 +144,8 @@ export function ItemRows({ gs, offset }: { gs: Group[]; offset: number }) {
     <div className="space-y-16 lg:space-y-28">
       {gs.map((g, i) => {
         const to = itemLink(g)
-        const src = g.image ? imgUrl(g.image.src) : fallbackImg(i + offset)
+        const heroSrc = g.href ? HERO_IMAGES[g.href] : undefined
+        const src = heroSrc || (g.image ? imgUrl(g.image.src) : fallbackImg(i + offset))
         return (
           <Reveal key={g.title + i}>
             <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-16">

@@ -64,7 +64,7 @@ export function OtherServicesPage() {
   const gs: Group[] = SERVICE_GROUPS[1].items.map((it) => {
     const pg = pageFor(it.path)!
     const pr = parse(pg, it.label)
-    return { image: pr.image ? { t: 'img', src: pr.image, alt: pr.imageAlt } : undefined, title: it.label, href: it.path, body: pr.lead ? [{ t: 'p', x: pr.lead }] : [] }
+    return { image: HERO_IMAGES[it.path] ? { t: 'img', src: HERO_IMAGES[it.path], alt: it.label } : pr.image ? { t: 'img', src: pr.image, alt: pr.imageAlt } : undefined, title: it.label, href: it.path, body: pr.lead ? [{ t: 'p', x: pr.lead }] : [] }
   })
   return (
     <>
