@@ -16,7 +16,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   // ─── HOME ────────────────────────────────────────────────────────────────
   '/': {
     title: 'DataDriven Services – Award-winning Best Digital Marketing Agency in Chennai',
-    desc: 'DataDriven is an award-winning digital marketing agency in Chennai. We offer email marketing, SEO, LinkedIn, social media, B2B data & lead generation that drive real business results.',
   },
 
   // ─── COMPANY ─────────────────────────────────────────────────────────────
@@ -30,11 +29,9 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/contact': {
     title: 'Contact DataDriven – Get a Free Digital Marketing Consultation',
-    desc: 'Reach out to DataDriven Services in Chennai. Call, email, or fill out the form for a free consultation on email marketing, SEO, social media, and lead generation.',
   },
   '/book-a-meeting': {
     title: 'Book a Free Strategy Meeting – DataDriven Services',
-    desc: 'Book a free 1-on-1 strategy call with the DataDriven team. Discuss your marketing goals and get a tailored plan to grow your business online.',
   },
   '/write-for-us': {
     title: 'Write for Us – DataDriven Digital Marketing Blog',
@@ -44,7 +41,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   // ─── DIGITAL MARKETING ───────────────────────────────────────────────────
   '/digital-marketing': {
     title: 'Digital Marketing Services in Chennai – Full-Service Agency',
-    desc: 'DataDriven offers full-service digital marketing in Chennai: email, SEO, social media, LinkedIn, content, webinar & video marketing to grow your business online.',
   },
   '/email-marketing': {
     title: 'Email Marketing Services in India – High ROI Campaigns',
@@ -68,7 +64,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/social-media-marketing-ads': {
     title: 'Social Media Advertising Services – Facebook, Instagram & More',
-    desc: 'Drive leads and sales with targeted social media ad campaigns. DataDriven manages Facebook, Instagram, and LinkedIn ads with optimised bidding and creative strategy.',
   },
   '/search-engine-optimization-seo': {
     title: 'SEO Services in Chennai – Rank Higher, Get More Traffic',
@@ -84,7 +79,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/webinar-marketing-services': {
     title: 'Webinar Marketing Services in India – End-to-End Management',
-    desc: 'From promotion to post-event follow-up, DataDriven manages your webinars end-to-end. Increase registrations, attendance, and pipeline with our webinar marketing service.',
   },
   '/video-marketing': {
     title: 'Video Marketing Services in Chennai – Engage & Convert',
@@ -102,7 +96,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   // ─── DATA SERVICES ───────────────────────────────────────────────────────
   '/data-services': {
     title: 'B2B & B2C Data Services in India – Verified Business Data',
-    desc: 'DataDriven provides verified, GDPR-compliant B2B and B2C data for email campaigns, cold outreach, and market research. High-accuracy, opt-in contact lists across industries.',
   },
   '/b2c-data': {
     title: 'B2C Data Provider in India – Consumer Contact Lists',
@@ -116,7 +109,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   // ─── OTHER SERVICES ──────────────────────────────────────────────────────
   '/other-services': {
     title: 'Other Marketing Services – Email Deliverability, VA & More',
-    desc: 'DataDriven offers specialised services including B2B & B2C email marketing, email deliverability consulting, virtual assistant services, and relationship building.',
   },
   '/b2b-email-marketing-services': {
     title: 'B2B Email Marketing Services in India – Lead Generation',
@@ -136,7 +128,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/relationship-building-services': {
     title: 'Relationship Building Services – B2B Outreach & Networking',
-    desc: 'Build lasting business relationships with DataDriven\'s personalised outreach and networking services. We help you connect with decision-makers and grow your pipeline.',
   },
 
   // ─── CASE STUDIES ────────────────────────────────────────────────────────
@@ -158,7 +149,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/case-studies/video-creation': {
     title: 'Video Creation Case Study – Engaging Brand Content',
-    desc: 'Find out how DataDriven created compelling video content that boosted brand visibility, social engagement, and lead generation for a client across multiple channels.',
   },
   '/case-studies/data-enrichment-services': {
     title: 'Data Enrichment Case Study – Cleaner Data, Better Results',
@@ -166,7 +156,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/case-studies/cloudyugab2b': {
     title: 'CloudYuga B2B Marketing Case Study – DataDriven',
-    desc: 'Explore how DataDriven helped CloudYuga reach enterprise decision-makers through targeted B2B email campaigns, LinkedIn outreach, and data-driven strategy.',
   },
   '/case-studies/google-ads': {
     title: 'Google Ads Case Study – High ROI PPC Campaign Results',
@@ -184,7 +173,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/portfolio/websites': {
     title: 'Website Portfolio – Web Development Projects by DataDriven',
-    desc: 'Explore websites designed and developed by DataDriven Services. Fast, SEO-friendly, mobile-first WordPress and custom websites built for businesses across India.',
   },
   '/portfolio/digital-vcards': {
     title: 'Digital VCards Portfolio – Interactive Business Cards',
@@ -194,11 +182,9 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   // ─── BLOG ────────────────────────────────────────────────────────────────
   '/blog': {
     title: 'Digital Marketing Blog – Tips, Guides & Insights',
-    desc: 'The DataDriven blog covers email marketing, SEO, social media, LinkedIn, B2B lead generation, and data strategies. Actionable tips from our team of marketing experts.',
   },
   '/blog/b2b-lead-generation-strategies': {
     title: '5 Proven Strategies to Skyrocket Your B2B Lead Generation',
-    desc: 'Discover 5 battle-tested B2B lead generation strategies used by DataDriven to help clients fill their sales pipeline with qualified prospects and close more deals.',
   },
   '/blog/crucial-insights-google-and-yahoos-february-email-updates': {
     title: "Google & Yahoo's February Email Updates – What Senders Must Know",
@@ -206,7 +192,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/blog/top-10-webinar-marketing-agencies-in-india': {
     title: 'Top 10 Webinar Marketing Agencies in India (2025 Guide)',
-    desc: 'Looking for the best webinar marketing agency in India? We ranked the top 10 agencies based on services, pricing, and client results to help you choose the right partner.',
   },
   '/blog/10-best-seo-agencies-in-chennai': {
     title: '10 Best SEO Agencies in Chennai – Ranked & Reviewed',
@@ -214,11 +199,9 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/blog/benefits-of-social-bookmarking-in-seo': {
     title: 'How Social Bookmarking Contributes to Better SEO Results',
-    desc: 'Learn how social bookmarking can improve your SEO by building backlinks, increasing crawl frequency, and driving referral traffic to your website.',
   },
   '/blog/how-social-media-marketing-strategy-helps-startup-businesses': {
     title: 'How Social Media Marketing Strategy Helps Startup Businesses',
-    desc: 'A strong social media marketing strategy is vital for startup growth. Discover how startups can use organic and paid social media to build brand awareness and get customers.',
   },
 
   // ─── LEGAL & UTILITY ─────────────────────────────────────────────────────
@@ -228,7 +211,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/terms-and-conditions': {
     title: 'Terms and Conditions – DataDriven Services',
-    desc: 'Review the terms and conditions governing the use of DataDriven Services website and all digital marketing services offered by our agency.',
   },
   '/faq': {
     title: 'Frequently Asked Questions – DataDriven Services',
@@ -236,7 +218,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   '/sitemap': {
     title: 'Sitemap – DataDriven Services',
-    desc: 'Complete sitemap of all pages on the DataDriven Services website — services, blog, case studies, portfolio, and more.',
   },
 }
 
@@ -250,3 +231,4 @@ export function getSeo(path: string): PageSeo {
     }
   )
 }
+
