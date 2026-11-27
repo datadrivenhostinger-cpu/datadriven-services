@@ -2,7 +2,7 @@ backend:
   name: github
   repo: datadrivenhostinger-cpu/datadriven-services
   branch: main
-  base_url: https://datadriven-services.com   # ← your Vercel domain (no trailing slash)
+  base_url: https://datadriven.services.vercel.app
   auth_endpoint: /api/auth
 
 # ── Local development (no backend needed) ────────────────────────────────────
