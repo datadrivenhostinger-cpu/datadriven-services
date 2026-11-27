@@ -2,8 +2,8 @@ backend:
   name: github
   repo: datadrivenhostinger-cpu/datadriven-services
   branch: main
-  base_url: https://datadriven.services.vercel.app
-  auth_endpoint: /api/auth
+  auth_type: implicit
+  app_id: Ov23lieIr8Pb2vs01r0r
 
 # ── Local development (no backend needed) ────────────────────────────────────
 # Swap to test-repo while coding locally:
