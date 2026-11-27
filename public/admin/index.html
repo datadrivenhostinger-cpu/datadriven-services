@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin – DataDriven CMS</title>
     <meta name="robots" content="noindex, nofollow" />
+    <script>window.CMS_MANUAL_INIT = true;</script>
     <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <style>
       /* Custom login screen override */
@@ -134,7 +135,11 @@
       const SESSION_KEY = 'dd_cms_authed';
 
       function initCMS() {
-        CMS.init({
+        if (typeof window.CMS === 'undefined') {
+          setTimeout(initCMS, 100);
+          return;
+        }
+        window.CMS.init({
           config: {
             backend: {
               name: 'github',
