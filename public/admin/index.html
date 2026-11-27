@@ -122,37 +122,62 @@
     </div>
 
     <script>
-      // ─── Credentials (hashed with SHA-256 on client for display, stored here as SHA-256 hex) ───
-      // To generate a hash: open browser console and run:
-      //   crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword'))
-      //     .then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
-      //
-      // DEFAULT CREDENTIALS (change these!):
-      //   Username: admin
-      //   Password: DD@Admin2024
-      const USERS = {
-        "admin": "7ea69ca87b32f8e4e5c2e62cc11cd49f2d1f03a8c37f3a39a8b4e2b6a2d5f9c1",
-        "editor": "b5e8c1a3f2d9e7c6a4b3f1d8e2c9b7a5f4d3e1c8b6a2f9d7e3c5b1a8f4d2e6c9"
-      };
-      // ─── Actual plain-text fallback for demo (remove in production) ───
+      // ─── Credentials ───
       const USERS_PLAIN = {
         "admin": "Admin@123",
         "editor": "Editor@123"
       };
-
-      async function sha256(str) {
-        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-        return [...new Uint8Array(buf)].map(x => x.toString(16).padStart(2, '0')).join('');
-      }
 
       const overlay  = document.getElementById('cms-login-overlay');
       const form     = document.getElementById('cms-login-form');
       const errorEl  = document.getElementById('cms-error');
       const SESSION_KEY = 'dd_cms_authed';
 
+      function initCMS() {
+        CMS.init({
+          config: {
+            backend: {
+              name: 'github',
+              repo: 'datadrivenhostinger-cpu/datadriven-services',
+              branch: 'main',
+              auth_type: 'implicit',
+              app_id: 'Ov23lieIr8Pb2vs01r0r'
+            },
+            media_folder: 'public/uploads',
+            public_folder: '/uploads',
+            site_url: 'https://datadriven.services.vercel.app',
+            collections: [
+              {
+                name: 'blog',
+                label: 'Blog Posts',
+                label_singular: 'Blog Post',
+                folder: 'public/content/blog',
+                create: true,
+                slug: '{{slug}}',
+                fields: [
+                  { label: 'Title', name: 'title', widget: 'string' },
+                  { label: 'Slug', name: 'slug', widget: 'string', required: false },
+                  { label: 'Publish Date', name: 'date', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false },
+                  { label: 'Author', name: 'author', widget: 'select', options: ['karthik','kumaresan','rajkumar','sivasakthi','team'], default: 'team' },
+                  { label: 'Category', name: 'category', widget: 'select', options: ['Digital Marketing','Email Marketing','SEO','Social Media','Content Marketing','Tips & Tricks','News'], default: 'Digital Marketing' },
+                  { label: 'Tags', name: 'tags', widget: 'list', required: false },
+                  { label: 'Cover Image', name: 'coverImage', widget: 'image', required: false },
+                  { label: 'Cover Image Alt', name: 'coverImageAlt', widget: 'string', required: false },
+                  { label: 'Excerpt', name: 'excerpt', widget: 'text' },
+                  { label: 'Body', name: 'body', widget: 'markdown' },
+                  { label: 'Featured', name: 'featured', widget: 'boolean', default: false, required: false },
+                  { label: 'Draft', name: 'draft', widget: 'boolean', default: false, required: false }
+                ]
+              }
+            ]
+          }
+        });
+      }
+
       // Check if already authenticated this session
       if (sessionStorage.getItem(SESSION_KEY) === '1') {
         overlay.classList.add('hidden');
+        initCMS();
       }
 
       form.addEventListener('submit', async (e) => {
@@ -161,26 +186,15 @@
         const password = document.getElementById('cms-pass').value;
         errorEl.classList.remove('show');
 
-        // Plain-text check (simple, works without server)
         if (USERS_PLAIN[username] === password) {
           sessionStorage.setItem(SESSION_KEY, '1');
           overlay.classList.add('hidden');
+          initCMS();
           return;
         }
-
-        // SHA-256 hash check as fallback
-        try {
-          const hash = await sha256(password);
-          if (USERS[username] && USERS[username] === hash) {
-            sessionStorage.setItem(SESSION_KEY, '1');
-            overlay.classList.add('hidden');
-            return;
-          }
-        } catch (_) {}
 
         errorEl.classList.add('show');
       });
     </script>
   </body>
 </html>
-
