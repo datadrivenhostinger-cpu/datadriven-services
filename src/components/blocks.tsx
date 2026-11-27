@@ -17,12 +17,26 @@ function isVsSec(sec: Sec): boolean {
   return false
 }
 
+// Returns true if the image src looks like a real photo (not an icon/logo/emoji)
+function isRealPhoto(src?: string): boolean {
+  if (!src) return false
+  // Real photos are webp/jpg files with meaningful names
+  if (/\.(webp|jpg|jpeg|png)$/i.test(src) && /\d{4}/.test(src)) return true
+  // Also allow our known assets folder photos
+  if (/\/assets\/pages\//i.test(src)) return true
+  // Reject obvious icons/logos/emoji images
+  if (/icon|logo|emoji|placeholder|arrow|play\-icon|clipart|vector|illustration/i.test(src)) return false
+  // Reject SVG (usually icons)
+  if (/\.svg$/i.test(src)) return false
+  return true
+}
+
 export function clean(blocks: Block[]) {
   const out: Block[] = []
   for (const b of blocks) {
     if (b.t === 'p' && /^Lorem ipsum/i.test(b.x || '')) continue
     if (b.t === 'btn' && !b.l) continue
-    if (b.t === 'img' && /arrow\.png|play-icon/i.test(b.src || '')) continue
+    if (b.t === 'img' && !isRealPhoto(b.src)) continue
     const prev = out[out.length - 1]
     if (prev && prev.t === b.t && prev.x === b.x && prev.src === b.src && (b.x || b.src)) continue
     out.push(b)
@@ -144,8 +158,7 @@ export function ItemRows({ gs, offset }: { gs: Group[]; offset: number }) {
     <div className="space-y-16 lg:space-y-28">
       {gs.map((g, i) => {
         const to = itemLink(g)
-        const heroSrc = g.href ? HERO_IMAGES[g.href] : undefined
-        const src = heroSrc || (g.image ? imgUrl(g.image.src) : fallbackImg(i + offset))
+        const src = HERO_IMAGES[to] || HERO_IMAGES[g.href || ''] || fallbackImg(i + offset)
         return (
           <Reveal key={g.title + i}>
             <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-16">
@@ -227,7 +240,7 @@ export function SectionView({ sec, idx }: { sec: Sec; idx: number }) {
   const imgs = gs.filter((g) => g.image).length
 
   if (gs.length >= 2) {
-    const rows = imgs >= Math.ceil(gs.length / 2)
+    const rows = gs.some((g) => !!HERO_IMAGES[itemLink(g)] || !!HERO_IMAGES[g.href || ''])
     return (
       <Sect tone={tone}>
         <div className="mb-8 grid gap-6 lg:mb-10 lg:grid-cols-12">
