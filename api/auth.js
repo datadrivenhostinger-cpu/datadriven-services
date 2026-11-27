@@ -23,7 +23,7 @@ export default function handler(req, res) {
 
   const params = new URLSearchParams({
     client_id: GITHUB_CLIENT_ID,
-    redirect_uri: `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : req.headers.origin}/api/callback`,
+    redirect_uri: `https://datadriven.services.vercel.app/api/callback`,
     scope,
     state,
   })

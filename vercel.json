@@ -4,8 +4,6 @@
   "installCommand": "pnpm install",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/auth",     "destination": "/api/auth.js" },
-    { "source": "/api/callback", "destination": "/api/callback.js" },
     { "source": "/((?!api|admin|uploads|assets|sitemap.xml|robots.txt).*)", "destination": "/index.html" }
   ],
   "headers": [
